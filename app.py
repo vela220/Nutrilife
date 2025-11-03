@@ -12,22 +12,25 @@ def inicio():
 def registro():
     return render_template("formulario.html")
 
+@app.route("/sesion")
+def sesion():
+    return render_template("sesion.html")
+
 @app.route("/dieta")
 def dieta():
     return render_template("dieta.html")
 
-@app.route("/horario")
+@app.route("/horarioC")
 def horario():
-    return render_template("horario.html")
+    return render_template("horarioC.html")
 
 @app.route("/recetas")
-def recetas():
+def recatas():
     return render_template("recetas.html")
 
 @app.route("/acerca")
 def acerca():
     return render_template("acerca.html")
-
 
 if __name__ == "__main__":
     app.run(debug=True)
