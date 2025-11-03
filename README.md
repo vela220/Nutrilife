@@ -21,7 +21,7 @@ Puntos fuertes y débiles:
 La integración entre el nutricionista y el usuario en una misma plataforma facilita el seguimiento del progreso y la personalización de la dieta en tiempo real.
 
 # MyFitnessPal
-<imagen ancho="112" altura="200" alternativa="imagen" fuente="c:\Users\Kenia Santana\Videos\Nueva carpeta (3)\Imagen2.png"/>
+<imagen ancho="112" altura="200" alternativa="imagen" fuente="![alt text](image.png)"/>
 * Funcionalidad:
 Esta aplicación es una de las más populares para controlar la alimentación. Tiene una base de datos de alimentos, permite registrar comidas escaneando códigos de barras, contar calorías y sincronizarse con relojes o apps de ejercicio. Además, ayuda a establecer metas de peso, nutrición y actividad física.
 Experiencia de usuario:
