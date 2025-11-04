@@ -7,7 +7,7 @@ La aplicación contará con recetas variadas, económicas, rápidas y especiales
 La metodología empleada consistirá en realizar un análisis comparativo de tres aplicaciones nutricionales existentes (Nutrium, MyFitnessPal y FatSecret), evaluando sus funcionalidades principales, experiencia de usuario, modelo de negocio, puntos fuertes, debilidades y características innovadoras. Esta revisión permitirá obtener información clave para el diseño y desarrollo de NutriLife, tomando como referencia las mejores prácticas observadas en las aplicaciones estudiadas.
 
 # Nutrium
-
+![ MyFitnessPal](![alt text](image-1.png))
 * Funcionalidad:
 Nutrium es una aplicación pensada principalmente para los profesionales de la nutrición. Permite crear planes de alimentación personalizados, registrar el avance de los pacientes y comunicarse directamente con ellos. También cuenta con una base de datos de alimentos, control de calorías, seguimiento del peso y análisis detallado de la dieta.
 * Experiencia de usuario:
@@ -35,7 +35,7 @@ Puntos fuertes y débiles:
 Permite escanear códigos de barras para registrar alimentos fácilmente y se conecta con dispositivos inteligentes, lo que hace más práctico el control diario.
 
 # Fitia
-
+![ MyFitnessPal](![alt text](image-2.png))
 * Funcionalidad:
 Fitia es una aplicación que ayuda a las personas a mejorar su alimentación por medio de planes personalizados. Permite registrar los alimentos que se consumen, contar calorías y crear menús diarios según el objetivo del usuario, ya sea bajar de peso, mantenerlo o aumentar masa muscular. También incluye recetas saludables y la opción de cambiar alimentos dentro del plan sin que se altere el equilibrio nutricional.
 * Experiencia de usuario:
@@ -48,24 +48,7 @@ Puntos fuertes y débiles:
 * Características innovadoras:
 Lo más innovador de Fitia es que puede crear dietas personalizadas en pocos segundos según los datos del usuario, como su edad, peso y objetivos. Esto hace que la aplicación sea muy útil para las personas que quieren mejorar su alimentación de forma rápida, sencilla y sin tener que hacer cálculos por sí mismas.
 # Tabla comparativa
-* Nutrium
-Profesionales de la nutrición
-Crear planes alimenticios, monitorear pacientes, comunicarse con ellos
-Profesional y algo técnica
-Freemium (versión básica y de pago)
-Precisión en planes, comunicación directa, diseño profesional
-* MyFitnessPal
-Público general interesado en mejorar su alimentación
-Registrar comidas, escanear códigos de barras, sincronizar con apps de ejercicio
-Muy fácil de usar, moderna y atractiva
-Freemium (gratis y premium con más funciones)
-Gran base de datos, conexión con dispositivos, comunidad activa
-* Fitia
-Personas que buscan un plan alimenticio personalizado
-Crear planes automáticos, registrar comidas y mostrar calorías y macronutrientes
-Intuitiva, visual y práctica
-Freemium (plan gratuito y versión premium con extras)
-Personalización automática, diseño claro, flexibilidad en menús
+![ MyFitnessPal](![alt text](image.png))
 
 # Diseño: Justificación de preguntas y metodología
 La encuesta fue diseñada con el objetivo de identificar las preferencias, necesidades y percepciones de los usuarios respecto a las aplicaciones de nutrición.
@@ -75,14 +58,23 @@ La muestra estuvo conformada por 41 personas, principalmente de entre 18 y 45 a�
 
 * Los resultados principales de la encuesta fueron los siguientes:
 - La mayoría de los encuestados tienen entre 18 –25 años. 
+![ MyFitnessPal](![alt text](image.png))
 - Las funciones que más desean los usuarios en la app fueron las recetas saludables con un 34.1% y recordatorios con un 26.8% de votos.
+![ MyFitnessPal](![alt text](image.png))
 - Los usuarios sugieren que la app hiciera recomendaciones según sus metas con un 90.2% de votos que sugieren que sí.
+![ MyFitnessPal](![alt text](image.png))
 - Los usuarios sugieren que les gustaría personalizar su dieta con un porcentaje de 65%.
+![ MyFitnessPal](![alt text](image.png))
 - Las recetas mas preferidas de los usuarios fueron las económicas con un 46.3% de votos.
+![ MyFitnessPal](![alt text](image.png))
 - El objetivo de los usuarios quedo en bajar de peso y comer mas saludable con un 29.3% por cada votación.
+![ MyFitnessPal](![alt text](image.png))
 - Lo que más motiva a los usuarios para usar nuestra app es en mejorar la salud con un 65% de votos.
+![ MyFitnessPal](![alt text](image.png))
 - Los recordatorios que más desean recibir los usuarios es hacer ejercicio con un 34.1%, y con menos porcentaje de un 29.3% es beber agua y revisar el progreso que se llevara a cabo.
+![ MyFitnessPal](![alt text](image.png))
 - El tiempo que le darían a nuestra app por parte de los usuarios fue diario con un 51.2% de votos.
+![ MyFitnessPal](![alt text](image.png))
 
 # Hallazgos principales: Lo que los usuarios realmente buscan.
 A partir del análisis de los resultados obtenidos en la encuesta, se pueden identificar varios patrones claros sobre las preferencias y expectativas de los usuarios en relación con las aplicaciones nutricionales. La mayoría de los participantes se encuentra en el rango de edad de 18 a 25 años, lo que refleja un público joven interesado en mejorar sus hábitos alimenticios y cuidar su salud a través del uso de herramientas digitales.
