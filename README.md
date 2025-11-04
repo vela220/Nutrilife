@@ -48,7 +48,7 @@ Puntos fuertes y débiles:
 * Características innovadoras:
 Lo más innovador de Fitia es que puede crear dietas personalizadas en pocos segundos según los datos del usuario, como su edad, peso y objetivos. Esto hace que la aplicación sea muy útil para las personas que quieren mejorar su alimentación de forma rápida, sencilla y sin tener que hacer cálculos por sí mismas.
 # Tabla comparativa
-![Tabla ](![alt text](image.png))
+![Tabla ](![alt text](image-3.png))
 
 # Diseño: Justificación de preguntas y metodología
 La encuesta fue diseñada con el objetivo de identificar las preferencias, necesidades y percepciones de los usuarios respecto a las aplicaciones de nutrición.
