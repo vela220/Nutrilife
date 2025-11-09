@@ -1,13 +1,51 @@
 {% extends "inicio.html" %}
 
-{% block title %}Ejercicios{% endblock %}
+{% block title %}Ejercicio{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h2 class="text-center text-success mb-4">Progreso de Ejercicio 💪</h2>
 
+        <form method="POST" class="mb-4">
+            <div class="row g-3 justify-content-center">
+                <div class="col-md-4">
+                    <label for="completado" class="form-label">Ejercicios completados:</label>
+                    <input type="number" class="form-control" id="completado" name="completado" min="0" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="total" class="form-label">Total de ejercicios:</label>
+                    <input type="number" class="form-control" id="total" name="total" min="1" required>
+                </div>
+            </div>
 
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success px-4">Actualizar Progreso</button>
+            </div>
+        </form>
 
+        <h5 class="text-center">Progreso actual:</h5>
+        <div class="progress" style="height: 30px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated
+                {% if porcentaje < 50 %}bg-danger{% elif porcentaje < 80 %}bg-warning{% else %}bg-success{% endif %}"
+                role="progressbar"
+                style="width: {{ porcentaje|default(0)|round(0) }}%;"
+                aria-valuenow="{{ porcentaje|default(0)|round(0) }}"
+                aria-valuemin="0"
+                aria-valuemax="100">
+                {{ porcentaje|default(0)|round(0) }}%
+            </div>
+        </div>
 
-
-
-
+        <div class="text-center mt-4">
+            {% if porcentaje < 50 %}
+                <p class="text-danger fw-bold">¡Vamos, tú puedes! 💪</p>
+            {% elif porcentaje < 100 %}
+                <p class="text-warning fw-bold">¡Buen avance! 🔥</p>
+            {% else %}
+                <p class="text-success fw-bold">¡Excelente! Has completado tu rutina 👏</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

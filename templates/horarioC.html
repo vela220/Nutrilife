@@ -1,13 +1,107 @@
-{% extends "inicio.html" %}
-
-{% block title %}Horario y Consumo de agua {% endblock %}
-
+{% extends "base.html" %}
+{% block title %}Horario y Consumo de Agua{% endblock %}
 {% block content %}
 
+<div class="mx-auto" style="max-width: 800px;">
+    <div class="text-center mb-4">
+    <h2 class="fw-bold text-success">💧 Horario y Consumo de Agua</h2>
+    <p class="text-muted">Registra tu consumo diario y semanal.</p>
+    </div>
 
+    <!-- Formulario -->
+    <div class="card shadow-sm rounded-4 p-4 mb-4">
+    <form action="{{ url_for('horario') }}" method="POST" class="row g-3">
+        <div class="col-md-6">
+        <label for="meta" class="form-label">Meta diaria (ml)</label>
+        <input type="number" class="form-control" id="meta" name="meta" value="{{ meta }}" required>
+        </div>
 
+        <div class="col-md-6">
+        <label for="actual" class="form-label">Consumo actual (ml)</label>
+        <input type="number" class="form-control" id="actual" name="actual" value="{{ actual }}" required>
+        </div>
 
+        <div class="col-12">
+        <label for="actual_semanal" class="form-label">Consumo semanal (opcional, ml)</label>
+        <input type="number" class="form-control" id="actual_semanal" name="actual_semanal" placeholder="Dejar vacío para demo">
+        </div>
 
+        <div class="col-12">
+        <button type="submit" class="btn btn-success w-100 fw-bold">Actualizar progreso</button>
+        </div>
+    </form>
+    </div>
 
+    <!-- Progreso diario -->
+    <div class="card shadow-sm rounded-4 p-4 mb-4">
+    <h5 class="text-center fw-bold text-success mb-3">Progreso Diario</h5>
+    <div class="progress rounded-pill" style="height: 30px;">
+        <div
+        class="progress-bar progress-bar-striped progress-bar-animated
+            {% if porcentaje < 50 %}bg-danger{% elif porcentaje < 80 %}bg-warning{% elif porcentaje < 100 %}bg-info{% else %}bg-success{% endif %}"
+        role="progressbar"
+        style="width:{{ porcentaje }}%;"
+        aria-valuenow="{{ porcentaje|round(0) }}"
+        aria-valuemin="0"
+        aria-valuemax="100">
+        {{ porcentaje|round(0) }}%
+        </div>
+    </div>
+    <p class="text-center text-muted mt-2">
+        Has tomado <strong>{{ actual }}</strong> ml de <strong>{{ meta }}</strong> ml hoy.
+    </p>
+    </div>
+
+    <!-- Progreso semanal -->
+    <div class="card shadow-sm rounded-4 p-4 mb-4">
+    <h5 class="text-center fw-bold text-success mb-3">Progreso Semanal</h5>
+    <div class="progress rounded-pill" style="height: 20px;">
+        <div
+        class="progress-bar
+            {% if porcentaje_semanal < 50 %}bg-danger{% elif porcentaje_semanal < 80 %}bg-warning{% elif porcentaje_semanal < 100 %}bg-info{% else %}bg-success{% endif %}"
+        role="progressbar",
+        style="width:{{ porcentaje_semanal }}%;"
+        aria-valuenow="{{ porcentaje_semanal|round(0) }}",
+        aria-valuemin="0",
+        aria-valuemax="100">
+        {{ porcentaje_semanal|round(0) }}%
+        </div>
+    </div>
+    <p class="text-center text-muted mt-2">
+        Semana: <strong>{{ actual_semanal }}</strong> ml de <strong>{{ meta_semanal }}</strong> ml.
+    </p>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card shadow-sm rounded-4 p-3">
+    <h5 class="text-success fw-bold mb-3 text-center">🕓 Recordatorio de Horarios</h5>
+    <table class="table table-hover text-center align-middle">
+        <thead class="table-success">
+        <tr>
+            <th>Hora</th>
+            <th>Cantidad (ml)</th>
+            <th>Estado</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>08:00 AM</td>
+            <td>250</td>
+            <td><span class="badge bg-success">Tomada 💧</span></td>
+        </tr>
+        <tr>
+            <td>10:00 AM</td>
+            <td>250</td>
+            <td><span class="badge bg-warning text-dark">Pendiente ⏳</span></td>
+        </tr>
+        <tr>
+            <td>12:00 PM</td>
+            <td>300</td>
+            <td><span class="badge bg-secondary">En proceso 💦</span></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
 
 {% endblock %}
