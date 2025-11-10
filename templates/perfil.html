@@ -1,0 +1,33 @@
+{% extends "inicio.html" %}
+
+{% block title %}Perfil{% endblock %}
+
+{% block content %}
+
+<h1>Perfil de Usuario</h1>
+
+    <hr>
+
+    <h2>Información Personal</h2>
+    <p> <strong> Nombre  </strong> {{nombre }}</p>
+    <p> <strong> Apellido </strong> {{apellido}}</p>
+    <p> <strong> email </strong> {{email}}</p>
+    <p> <strong> Password </strong> {{password}}</p>
+    <p> <strong> Genero </strong> {{genero}}</p>
+    <p> <strong> Experiencia </strong> {{experiencia}}</p>
+    <p> <strong> Objetivos  </strong> {{objetivos}}</p>
+    <p> <strong> Alergias   </strong> {{alergias}}</p>
+    <p> <strong> Intolerancias  </strong> {{intolerancias}}</p>
+    <p> <strong> Dietas  </strong> {{dietas}}</p>
+    <p> <strong> No me gusta  </strong> {{no_gustan}}</p>
+    
+
+    <hr>
+
+<a href="/formulario">Editar Perfil </a>
+
+
+
+
+
+{% endblock %}

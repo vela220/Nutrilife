@@ -107,9 +107,50 @@ def ejercicio():
     return render_template("ejercicio.html", porcentaje=porcentaje)
 
 
-@app.route("/analisis")
-def analisis():
-    return render_template("analisis.html")
+@app.route("/perfil", methods=["GET", "POST"])
+def perfil():
+    if request.method == "POST":
+        nombre = request.form.get("nombre", "")
+        apellido = request.form.get("apellido", "")
+        email = request.form.get("email", "")
+        password = request.form.get("password", "")
+        genero = request.form.get("genero", "")
+        experiencia = request.form.get("experiencia", "")
+        objetivos = request.form.get("objetivos", "")
+        alergias = request.form.get("alergias", "")
+        intolerancias = request.form.get("intolerancias", "")
+        dietas = request.form.get("dietas", "")
+        no_gustan = request.form.get("no_gustan", "")
+
+        return render_template(
+            "perfil.html",
+            nombre=nombre,
+            apellido=apellido,
+            email=email,
+            password=password,
+            genero=genero,
+            experiencia=experiencia,
+            objetivos=objetivos,
+            alergias=alergias,
+            intolerancias=intolerancias,
+            dietas=dietas,
+            no_gustan=no_gustan
+        )
+    else:
+        return render_template(
+            "perfil.html",
+            nombre="",
+            apellido="",
+            email="",
+            password="",
+            genero="",
+            experiencia="",
+            objetivos="",
+            alergias="",
+            intolerancias="",
+            dietas="",
+            no_gustan=""
+        )
 
 
 @app.route("/calculadora")
