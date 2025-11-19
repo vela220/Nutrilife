@@ -4,6 +4,71 @@
 
 {% block content %}
 
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 420px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f6ff;
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #6a75ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+
+
+    <h1>Calculadora de IMC</h1>
+
+    <form action="/calcular" method="POST">
+
+        <label>Peso (en gramos):</label>
+        <input type="number" name="peso" placeholder="Ej. 60000" required>
+
+        <label>Altura (en centímetros):</label>
+        <input type="number" name="altura" placeholder="Ej. 165" required>
+
+        <button type="submit">Calcular IMC</button>
+    </form>
+
+    {% if resultado %}
+        <div id="resultado">
+            <strong>IMC:</strong> {{ imc }} <br>
+            <strong>Categoría:</strong> {{ categoria }}
+        </div>
+    {% endif %}
 
 
 
