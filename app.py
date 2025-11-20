@@ -159,6 +159,34 @@ def perfil():
 def calculadora():
     return render_template("calculadora.html")
 
+@app.route("/calcular", methods=["POST"])
+def calcular():
+    peso = float(request.form["peso"])
+    altura = float(request.form["altura"])
+
+    peso_kg = peso / 1000
+    altura_m = altura / 100
+
+    imc = peso_kg / (altura_m ** 2)
+    imc = round =(imc, 2)
+
+    if imc < 18.5:
+        categoria = "Bajo peso"
+    elif 18.5 <= imc < 24.9:
+        categoria = "Normal"
+    elif 25 <= imc < 29.9:
+        categoria = "Sobrepeso"
+    else:
+        categoria = "Obesidad"
+
+    return render_template(
+        "calculadora.html",
+        resultado=True,
+        imc=imc,
+        categoria=categoria
+    )
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
