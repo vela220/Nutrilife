@@ -9,6 +9,8 @@ def lobby():
 
 @app.route("/inicio")
 def inicio():
+    if not session.get("usuario"):
+        return redirect(url_for("sesion"))
     return render_template("inicio.html")
 
 
