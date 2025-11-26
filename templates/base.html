@@ -27,7 +27,8 @@
             <ul class="navbar-nav ms-auto">
 
 
-                {% if not session.get('usuario') or request.endpoint == 'lobby' %}
+                {% if not session.get('usuario') %}
+
                     <li class="nav-item">
                         <a class="nav-link text-light" href="{{ url_for('formulario') }}">Regístrate</a>
                     </li>

@@ -1,7 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+import requests
 
 app = Flask(__name__)
 app.secret_key = "clave_secreta"
+
+API_KEY = "X6bcYYVWiKi2VhDRFij4dErDszBeJVsWRe0YFvG9"
+
+def buscar_recetas_api(consulta):
+    url = "https://api.nal.usda.gov/fdc/v1/foods/search"
+    params = {
+        "api_key": API_KEY,
+        "query": consulta,
+        "pageSize": 10
+    }
+
+    respuesta = requests.get(url, params=params)
+
+    if respuesta.status_code == 200:
+        return respuesta.json()
+    else:
+        return {"foods": []}
+
 
 @app.route("/")
 def lobby():
@@ -63,47 +82,51 @@ def formulario():
 
 @app.route("/dieta", methods=["GET", "POST"])
 def dieta():
+    datos_usuario = None
+    dieta_generada = None
 
-    peso = 60
-    altura = 165
-    objetivo = "Bajar de peso"
+    if request.method == "POST":
+        edad = int(request.form["edad"])
+        peso = float(request.form["peso"])
+        altura = float(request.form["altura"])
+        objetivo = request.form["objetivo"]
 
-    if objetivo == "Bajar de peso":
-        desayuno = "Avena con fruta y nueces"
-        comida = "Pollo a la plancha con verduras"
-        cena = "Ensalada ligera con proteína"
-        snack = "Yogurt griego o una manzana"
-    elif objetivo == "Subir masa muscular":
-        desayuno = "Huevos con avena y plátano"
-        comida = "Carne magra con arroz y verduras"
-        cena = "Atún con tortillas de maíz"
-        snack = "Licenciado de proteína o frutos secos"
-    else:  
-        desayuno = "Pan integral con huevo"
-        comida = "Pechuga con pasta integral"
-        cena = "Sándwich integral con jamón de pavo"
-        snack = "Fruta o yogurt"
+        
+        session["nutri_datos"] = {
+            "edad": edad,
+            "peso": peso,
+            "altura": altura,
+            "objetivo": objetivo
+        }
 
-    
-    hora_desayuno = "8:00 AM"
-    hora_comida = "2:00 PM"
-    hora_cena = "8:00 PM"
+        datos_usuario = session["nutri_datos"]
 
-    return render_template(
-        "dieta.html",
-        peso=peso,
-        altura=altura,
-        objetivo=objetivo,
-        desayuno=desayuno,
-        comida=comida,
-        cena=cena,
-        snack=snack,
-        hora_desayuno=hora_desayuno,
-        hora_comida=hora_comida,
-        hora_cena=hora_cena
-    )
+        
+        if objetivo == "bajar":
+            dieta_generada = [
+                "Desayuno: Avena con manzana",
+                "Comida: Pollo a la plancha con verduras",
+                "Cena: Ensalada verde con atún",
+                "Snack: Yogur griego"
+            ]
+        elif objetivo == "subir":
+            dieta_generada = [
+                "Desayuno: Huevos + pan integral",
+                "Comida: Pasta con carne molida",
+                "Cena: Sándwich de pavo",
+                "Snack: Almendras"
+            ]
+        else:  
+            dieta_generada = [
+                "Desayuno: Smoothie de frutas",
+                "Comida: Arroz + pollo + ensalada",
+                "Cena: Wrap de vegetales",
+                "Snack: Gelatina light"
+            ]
 
-
+    return render_template("dieta.html",
+            datos=datos_usuario,
+            dieta=dieta_generada)
 
 
 
@@ -138,9 +161,25 @@ def horario():
     )
 
 
-@app.route("/recetas")
+@app.route("/recetas", methods=["GET", "POST"])
 def recetas():
-    return render_template("recetas.html")
+    resultados = None
+    recomendaciones = None
+
+    if request.method == "POST":
+        consulta = request.form.get("buscar", "")
+
+
+        resultados = buscar_recetas_api(consulta)
+
+        if len(consulta) >= 3:
+            recomendaciones = buscar_recetas_api(consulta[:3])
+
+    return render_template(
+        "recetas.html",
+        resultados=resultados,
+        recomendaciones=recomendaciones
+    )
 
 
 @app.route("/acerca")
@@ -257,6 +296,7 @@ def info():
 def logout():
     session.clear()
     return redirect(url_for("lobby"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

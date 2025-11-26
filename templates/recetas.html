@@ -1,13 +1,39 @@
-{% extends "inicio.html" %}
-
-{% block title %}Rectas Saludables{% endblock %}
+{% extends "base.html" %}
+{% block title %}Recetas{% endblock %}
 
 {% block content %}
+<h2 class="text-center mb-4">Buscador de Recetas</h2>
 
+<form action="/recetas" method="POST" class="d-flex mb-4">
+    <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar receta..." required>
+    <button class="btn btn-primary">Buscar</button>
+</form>
 
+{% if resultados %}
+<h3>Resultados:</h3>
 
+<ul class="list-group mb-4">
+    {% for r in resultados.foods %}
+    <li class="list-group-item">
+        <strong>{{ r.description }}</strong><br>
+        Calorías aprox: {{ r.foodNutrients[0].value if r.foodNutrients }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 
-
-
+<h3 class="mt-4">Recomendaciones para ti:</h3>
+{% if recomendaciones %}
+<ul class="list-group">
+    {% for r in recomendaciones.foods %}
+    <li class="list-group-item">
+        {{ r.description }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No hay recomendaciones aún.</p>
+{% endif %}
 
 {% endblock %}
+
