@@ -1,0 +1,22 @@
+<h2>Detalles del alimento</h2>
+
+<div id="info"></div>
+
+<script>
+const id = "{{ id }}";
+
+fetch("/api/alimento/" + id)
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById("info").innerHTML = `
+            <h2>${data.nombre}</h2>
+            <p><strong>Tipo:</strong> ${data.tipo}</p>
+
+            <h3>Nutrición</h3>
+            <p>Calorías: ${data.nutricion.calorias}</p>
+            <p>Proteína: ${data.nutricion.proteina}</p>
+            <p>Grasa: ${data.nutricion.grasa}</p>
+            <p>Carbohidratos: ${data.nutricion.carbohidratos}</p>
+        `;
+    });
+</script>

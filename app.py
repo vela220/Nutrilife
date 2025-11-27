@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import requests
 
 app = Flask(__name__)
@@ -20,6 +20,61 @@ def buscar_recetas_api(consulta):
         return respuesta.json()
     else:
         return {"foods": []}
+
+@app.route("/api/buscar")
+def api_buscar():
+    consulta = request.args.get("q", "").strip()
+
+    if not consulta:
+        return jsonify([])
+
+    datos = buscar_recetas_api(consulta)
+
+    alimentos = []
+
+    for f in datos.get("foods", []):
+        alimentos.append({
+            "id": f.get("fdcId"),
+            "nombre": f.get("description", "Desconocido"),
+            "tipo": f.get("dataType", "N/D")
+        })
+
+    return jsonify (alimentos)
+
+@app.route("/api/alimento/<int:fdc_id>")
+def api_alimento(fdc_id):
+
+    url = f"https://api.nal.usda.gov/fdc/v1/food/{fdc_id}?api_key={API_KEY}"
+    r = requests.get(url)
+
+    if r.status_code != 200:
+        return jsonify({"error": "No se pudo obtener información"}), 400
+
+    data = r.json()
+
+    
+    nutrientes = {}
+    for n in data.get("foodNutrients", []):
+        nut = n.get("nutrient", {})
+        nombre = nut.get("name")
+        valor = n.get("amount", "N/D")
+
+        if nombre:
+            nutrientes[nombre] = valor
+
+    detalle = {
+        "id": fdc_id,
+        "nombre": data.get("description", "N/D"),
+        "tipo": data.get("dataType", "N/D"),
+        "nutricion": {
+            "calorias": nutrientes.get("Energy", "N/D"),
+            "proteina": nutrientes.get("Protein", "N/D"),
+            "grasa": nutrientes.get("Total lipid (fat)", "N/D"),
+            "carbohidratos": nutrientes.get("Carbohydrate, by difference", "N/D")
+        }
+    }
+
+    return jsonify(detalle)
 
 
 @app.route("/")
@@ -181,6 +236,12 @@ def recetas():
         recomendaciones=recomendaciones
     )
 
+    
+@app.route("/detalle/<int:fdc_id>")
+def detalle(fdc_id):
+    return render_template("detalle.html", id=fdc_id)
+
+
 
 @app.route("/acerca")
 def acerca():
@@ -286,6 +347,7 @@ def calculadora():
         }
 
     return render_template("calculadora.html", resultado=resultado)
+
 
 
 @app.route("/info")

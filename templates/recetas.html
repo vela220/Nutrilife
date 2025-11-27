@@ -1,39 +1,175 @@
 {% extends "base.html" %}
-{% block title %}Recetas{% endblock %}
+{% block title %}Buscador de Nutrición{% endblock %}
 
 {% block content %}
-<h2 class="text-center mb-4">Buscador de Recetas</h2>
 
-<form action="/recetas" method="POST" class="d-flex mb-4">
-    <input type="text" class="form-control me-2" name="buscar" placeholder="Buscar receta..." required>
-    <button class="btn btn-primary">Buscar</button>
-</form>
+<div class="container my-5">
 
-{% if resultados %}
-<h3>Resultados:</h3>
+    <h2 class="text-center mb-4 text-primary">🔍 Buscador de Alimentos y Nutrición (USDA)</h2>
 
-<ul class="list-group mb-4">
-    {% for r in resultados.foods %}
-    <li class="list-group-item">
-        <strong>{{ r.description }}</strong><br>
-        Calorías aprox: {{ r.foodNutrients[0].value if r.foodNutrients }}
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
+    
+    <div class="input-group mb-5 shadow-sm">
+        <input type="text" class="form-control form-control-lg"
+               id="searchInput"
+               placeholder="Buscar alimento (ej: Chicken, Apple)"
+               required>
+        <button class="btn btn-primary btn-lg" onclick="realizarBusqueda()">Buscar</button>
+    </div>
 
-<h3 class="mt-4">Recomendaciones para ti:</h3>
-{% if recomendaciones %}
-<ul class="list-group">
-    {% for r in recomendaciones.foods %}
-    <li class="list-group-item">
-        {{ r.description }}
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No hay recomendaciones aún.</p>
-{% endif %}
+    
+    <div id="resultadosContainer" class="row row-cols-1 row-cols-md-3 g-4">
+        
+    </div>
+
+</div>
+
+
+
+<div id="modal-overlay" 
+     class="modal fade"
+     tabindex="-1"
+     aria-hidden="true"
+     style="
+     display:none;
+     position:fixed;
+     left:0; top:0;
+     width:100%; height:100%;
+     background-color:rgba(0,0,0,0.6);
+     backdrop-filter:blur(4px);
+     z-index:1050;">
+    
+    <div class="modal-dialog modal-dialog-centered">
+        <div id="recetaModal"
+             class="modal-content bg-light p-4 rounded shadow-lg"
+             style="transform:scale(0.9); transition:0.3s;">
+            
+            <div class="modal-header">
+                <h3 id="modalNombre" class="modal-title text-primary"></h3>
+                <button type="button" class="btn-close" onclick="cerrarModal()"></button>
+            </div>
+
+            <div class="modal-body">
+                <p id="modalTipo" class="text-muted"></p>
+
+                <hr>
+
+                <h4 class="mb-3 text-secondary">Valores Nutricionales (por 100g):</h4>
+                <ul class="list-unstyled">
+                    <li><strong>Calorías:</strong> <span id="modalCalorias"></span></li>
+                    <li><strong>Proteína:</strong> <span id="modalProteina"></span></li>
+                    <li><strong>Grasa:</strong> <span id="modalGrasa"></span></li>
+                    <li><strong>Carbohidratos:</strong> <span id="modalCarbohidratos"></span></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+const searchInput = document.getElementById('searchInput');
+const resultadosContainer = document.getElementById('resultadosContainer');
+const modalOverlay = document.getElementById('modal-overlay');
+
+
+
+function mostrarCarga() {
+    resultadosContainer.innerHTML = `
+        <div class="col-12 text-center p-5">
+            <div class="spinner-border text-primary"></div>
+            <p class="mt-3">Buscando alimentos...</p>
+        </div>`;
+}
+
+
+
+function cerrarModal() {
+    modalOverlay.style.display = "none";
+}
+
+
+
+
+async function realizarBusqueda() {
+    const query = searchInput.value.trim();
+    if (!query) return;
+
+    mostrarCarga();
+    cerrarModal();
+
+    const response = await fetch(`/api/buscar?q=${query}`);
+    const alimentos = await response.json();
+
+    resultadosContainer.innerHTML = "";
+
+    if (alimentos.length === 0) {
+        resultadosContainer.innerHTML =
+            `<div class="col-12"><p class="alert alert-warning">No se encontraron resultados.</p></div>`;
+        return;
+    }
+
+    alimentos.forEach(alimento => {
+        const col = document.createElement("div");
+        col.className = "col";
+
+        const card = document.createElement("div");
+        card.className = "card shadow-sm h-100";
+        card.style.cursor = "pointer";
+
+        card.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">${alimento.nombre}</h5>
+                <p class="text-muted small">Tipo: ${alimento.tipo}</p>
+                <button class="btn btn-primary btn-sm">Ver Nutrición</button>
+            </div>
+        `;
+
+        
+        card.querySelector("button").onclick = (e) => {
+            e.stopPropagation();
+            mostrarDetalle(alimento.id);
+        };
+
+        
+        card.onclick = () => mostrarDetalle(alimento.id);
+
+        col.appendChild(card);
+        resultadosContainer.appendChild(col);
+    });
+}
+
+
+
+async function mostrarDetalle(foodId) {
+
+    modalOverlay.style.display = "block";
+
+    document.getElementById("modalNombre").textContent = "Cargando...";
+    document.getElementById("modalTipo").textContent = "";
+    document.getElementById("modalCalorias").textContent = "";
+    document.getElementById("modalProteina").textContent = "";
+    document.getElementById("modalGrasa").textContent = "";
+    document.getElementById("modalCarbohidratos").textContent = "";
+
+    const response = await fetch(`/api/alimento/${foodId}`);
+    const info = await response.json();
+
+    if (info.error) {
+        document.getElementById("modalNombre").textContent = "Error al cargar";
+        return;
+    }
+
+    document.getElementById("modalNombre").textContent = info.nombre;
+    document.getElementById("modalTipo").textContent = "Tipo: " + info.tipo;
+    document.getElementById("modalCalorias").textContent = info.nutricion.calorias;
+    document.getElementById("modalProteina").textContent = info.nutricion.proteina;
+    document.getElementById("modalGrasa").textContent = info.nutricion.grasa;
+    document.getElementById("modalCarbohidratos").textContent = info.nutricion.carbohidratos;
+}
+
+</script>
 
 {% endblock %}
-
